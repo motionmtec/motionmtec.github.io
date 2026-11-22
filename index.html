@@ -39,6 +39,7 @@
     "addressCountry": "KR"
   },
   "areaServed": ["인천", "경기", "서울"],
+  "sameAs": ["https://blog.naver.com/ckw4537"],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
     "name": "측정 및 제작 서비스",
@@ -399,6 +400,16 @@ footer{background:#000;border-top:1px solid var(--line)}
 .farea b{color:var(--accent);margin-right:10px}
 .fnote{color:#8f8f8f;font-size:14px;margin-top:12px}
 @media (max-width:980px){.fields{grid-template-columns:1fr}}
+/* guide / blog */
+.guides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.gcard{display:block;background:#151515;border:1px solid #262626;border-radius:14px;padding:24px 24px 22px;transition:border-color .2s,transform .2s}
+.gcard:hover{border-color:var(--accent);transform:translateY(-3px)}
+.gcard .gk{display:inline-block;font-size:12.5px;font-weight:700;color:var(--accent);letter-spacing:.5px;margin-bottom:10px}
+.gcard b{display:block;color:#fff;font-size:17.5px;line-height:1.45;margin-bottom:8px;word-break:keep-all}
+.gcard p{color:#9a9a9a;font-size:14.5px;line-height:1.55}
+.gmore{text-align:center;margin-top:30px}
+.flink{color:var(--accent);text-decoration:none}.flink:hover{text-decoration:underline}
+@media (max-width:980px){.guides{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -413,7 +424,9 @@ footer{background:#000;border-top:1px solid var(--line)}
       <li><a href="#services">서비스</a></li>
       <li><a href="#equipment">보유 장비</a></li>
       <li><a href="#process">진행 절차</a></li>
+      <li><a href="#guide">측정 가이드</a></li>
       <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener">블로그 ↗</a></li>
       <li><a href="#contact">오시는 길</a></li>
     </ul>
     <div class="nav-right">
@@ -617,6 +630,25 @@ footer{background:#000;border-top:1px solid var(--line)}
   </div>
 </section>
 
+<section id="guide">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">MEASUREMENT GUIDE</span>
+      <h2>측정 가이드 · 기술 블로그</h2>
+      <p>측정을 맡기기 전에 알아 두면 좋은 내용을 블로그에 연재합니다.</p>
+    </div>
+    <div class="guides rv">
+      <a class="gcard" href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener"><span class="gk">3차원 측정</span><b>대형 부품, 측정기 크기부터 확인해야 하는 이유</b><p>측정 범위를 벗어난 부품을 나눠 재면 놓치는 것들</p></a>
+      <a class="gcard" href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener"><span class="gk">의뢰 방법</span><b>3차원 측정 대행 맡기기 전 준비할 5가지</b><p>도면, 중요 치수, 기준면, 수량, 입고 방법</p></a>
+      <a class="gcard" href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener"><span class="gk">금형 · 사출</span><b>금형 코어 · 사출물 측정, 어디를 봐야 할까</b><p>파팅면 평면도, 코어 위치도, 캐비티별 편차</p></a>
+      <a class="gcard" href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener"><span class="gk">조도 측정</span><b>표면조도 Ra와 Rz, 무엇이 다를까</b><p>실링면 · 끼워맞춤면에서 두 값을 함께 보는 이유</p></a>
+      <a class="gcard" href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener"><span class="gk">역설계</span><b>도면 없는 부품, 3차원 측정으로 되살리기</b><p>3D 스캐너와 CMM을 언제 쓰는지</p></a>
+      <a class="gcard" href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener"><span class="gk">3D 프린팅 · 지그</span><b>FDM 출력과 지그 제작, 무엇으로 만들까</b><p>3D 프린팅 지그와 가공 지그의 선택 기준</p></a>
+    </div>
+    <div class="gmore rv"><a class="btn btn-line" href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener">블로그에서 전체 글 보기 →</a></div>
+  </div>
+</section>
+
 <section id="faq" class="bg-soft">
   <div class="wrap">
     <div class="sec-head rv">
@@ -629,6 +661,8 @@ footer{background:#000;border-top:1px solid var(--line)}
       <details><summary><span>측정 비용은 어떻게 정해지나요?</span></summary><p>측정 항목 수, 형상 난이도, 측정 프로그램 작성 시간, 수량에 따라 산정합니다. 같은 부품을 반복 측정하시면 저장된 측정 프로그램으로 재측정 비용을 낮춰 드립니다.</p></details>
       <details><summary><span>부품은 어디로 보내면 되나요?</span></summary><p>사무소는 송도에 있고, 대형 부품 측정은 인천 주안 협력 공장의 측정실에서 진행합니다. 입고 장소와 방법은 견적 확정 시 안내드립니다.</p></details>
       <details><summary><span>도면과 부품 정보 보안은 어떻게 되나요?</span></summary><p>요청하시면 보안서약서를 체결합니다. 고객 도면과 측정 데이터는 해당 업무에만 사용하고 외부에 공유하지 않습니다.</p></details>
+      <details><summary><span>어떤 파일 형식으로 보내면 되나요?</span></summary><p>2D 도면은 PDF, DWG, DXF, 3D 모델은 STEP, IGES, STL(3D 프린팅) 파일이면 됩니다. 파일이 없으면 도면 사진이나 부품 사진으로 먼저 상담하셔도 됩니다.</p></details>
+      <details><summary><span>측정 결과는 어떤 형태로 받나요?</span></summary><p>항목별 설계값, 측정값, 편차, 합격 여부가 담긴 측정 리포트(PDF)와 엑셀 데이터를 메일로 보내 드립니다. 사내 품질 기록에 바로 붙여 쓸 수 있습니다.</p></details>
       <details><summary><span>3D 모델 파일이 없어도 출력할 수 있나요?</span></summary><p>네. 2D 도면, 스케치, 실물을 바탕으로 3D 모델링을 진행한 뒤 출력합니다. 모델링 비용은 별도로 안내드립니다.</p></details>
     </div>
   </div>
@@ -702,6 +736,7 @@ footer{background:#000;border-top:1px solid var(--line)}
           <dt>사무소</dt><dd>인천광역시 연수구 송도미래로 30,<br>스마트밸리 E동 1306호</dd>
           <dt>측정실</dt><dd>인천 주안 협력 공장 (입고 시 안내)</dd>
           <dt>이메일</dt><dd><a href="mailto:sowmail37@gmail.com">sowmail37@gmail.com</a></dd>
+          <dt>블로그</dt><dd><a href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener">blog.naver.com/ckw4537</a></dd>
         </dl>
         <div class="map"><iframe title="모션엠텍 사무소 위치" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=%EC%9D%B8%EC%B2%9C%20%EC%97%B0%EC%88%98%EA%B5%AC%20%EC%86%A1%EB%8F%84%EB%AF%B8%EB%9E%98%EB%A1%9C%2030&z=16&output=embed"></iframe></div>
       </div>
@@ -739,7 +774,8 @@ footer{background:#000;border-top:1px solid var(--line)}
       <b>모션엠텍 주식회사</b><br>
       대표 박진희 · 사업자등록번호 893-81-01360<br>
       인천광역시 연수구 송도미래로 30, 스마트밸리 E동 1306호<br>
-      전화 010-5291-4537 · 이메일 sowmail37@gmail.com
+      전화 010-5291-4537 · 이메일 sowmail37@gmail.com<br>
+      <a class="flink" href="https://blog.naver.com/ckw4537" target="_blank" rel="noopener">기술 블로그 blog.naver.com/ckw4537 ↗</a>
     </div>
     <div style="align-self:flex-end">© <span id="yr">2026</span> 모션엠텍 주식회사. All rights reserved.</div>
   </div>
