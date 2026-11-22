@@ -4,3 +4,4 @@ Allow: /
 Sitemap: https://motionmtec.github.io/sitemap.xml
 
 # 다음 웹마스터도구에서 발급받은 PIN 코드 줄을 이 아래에 붙여 넣으세요.
+#DaumWebMasterTool:ec63bbd2e327e51f0fec94e5297091720099a29f80d1398a5f888eba347e5c4f:CwADIp+6ZHYYqogn2XaFYA==
