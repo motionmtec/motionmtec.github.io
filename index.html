@@ -410,6 +410,17 @@ footer{background:#000;border-top:1px solid var(--line)}
 .gmore{text-align:center;margin-top:30px}
 .flink{color:var(--accent);text-decoration:none}.flink:hover{text-decoration:underline}
 @media (max-width:980px){.guides{grid-template-columns:minmax(0,1fr)}}
+/* modal */
+.mdl{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:20px}
+.mdl[hidden]{display:none}
+.mdl-box{position:relative;width:min(520px,100%);max-height:90vh;overflow:auto;background:#151515;border:1px solid #333;border-top:3px solid var(--accent);border-radius:10px;padding:28px 26px 24px;color:#eee}
+.mdl-box h3{font-size:20px;margin-bottom:10px;color:#fff}
+.mdl-box p{font-size:15px;line-height:1.6;color:#bbb;margin-bottom:14px;word-break:keep-all}
+.mdl-box p b{color:var(--accent)}
+.mdl-box textarea{width:100%;min-height:150px;background:#0c0c0c;color:#ddd;border:1px solid #333;border-radius:6px;padding:10px;font:13.5px/1.55 inherit;resize:vertical;margin-bottom:14px}
+.mdl-act{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.mdl-x{position:absolute;top:8px;right:12px;background:none;border:0;color:#888;font-size:28px;cursor:pointer;line-height:1}
+.mdl-x:hover{color:#fff}
 </style>
 </head>
 <body>
@@ -758,7 +769,7 @@ footer{background:#000;border-top:1px solid var(--line)}
         <label>수량 · 희망 납기<input name="qty" placeholder="예: 3개, 12월 10일까지"></label>
         <label class="full">요청 내용<textarea name="msg" placeholder="측정 항목, 공차, 용도 등을 적어 주세요."></textarea></label>
         <div class="full form-actions">
-          <span class="hint">버튼을 누르면 문자 · 메일 앱에 내용이 채워집니다.</span>
+          <span class="hint">휴대폰은 문자·메일 앱이 열리고, PC는 보낼 내용과 연락처를 안내해 드립니다.</span>
           <button class="btn btn-line" type="button" onclick="sendMail()">메일로 보내기</button>
           <button class="btn btn-accent" type="button" onclick="sendSms()">문자로 보내기</button>
         </div>
@@ -786,6 +797,16 @@ footer{background:#000;border-top:1px solid var(--line)}
   <a href="#contact">견적 문의</a>
 </nav>
 
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdlT" hidden>
+  <div class="mdl-box">
+    <button class="mdl-x" type="button" onclick="mdlClose()" aria-label="닫기">×</button>
+    <h3 id="mdlT"></h3>
+    <p id="mdlP"></p>
+    <textarea id="mdlTxt" readonly></textarea>
+    <div class="mdl-act" id="mdlAct"></div>
+  </div>
+</div>
+
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
 var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.12}) : null;
@@ -806,7 +827,74 @@ function smsOpen(text){
   return false;
 }
 function sendSms(){ var q = quoteText(); smsOpen(q.title + '\n' + q.body); }
-function sendMail(){ var q = quoteText(); location.href = 'mailto:sowmail37@gmail.com?subject=' + encodeURIComponent(q.title) + '&body=' + encodeURIComponent(q.body + '\n\n※ 도면 파일을 첨부해 주세요.'); }
+function sendMailApp(){ var q = quoteText(); location.href = 'mailto:sowmail37@gmail.com?subject=' + encodeURIComponent(q.title) + '&body=' + encodeURIComponent(q.body + '\n\n※ 도면 파일을 첨부해 주세요.'); }
+
+var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
+var mailLink = document.querySelector('#contact a[href^="mailto:"]');
+var MAILTXT = mailLink ? mailLink.textContent.trim() : '';
+var TELD = '010-5291-4537';
+function mdlOpen(title, msg, text, actions){
+  document.getElementById('mdlT').textContent = title;
+  document.getElementById('mdlP').innerHTML = msg;
+  var ta = document.getElementById('mdlTxt'); ta.value = text || ''; ta.style.display = text ? '' : 'none';
+  var box = document.getElementById('mdlAct'); box.innerHTML = '';
+  actions.forEach(function(a){
+    var el = document.createElement('button'); el.type = 'button';
+    el.className = 'btn ' + (a.primary ? 'btn-accent' : 'btn-line'); el.textContent = a.label; el.onclick = a.onclick;
+    box.appendChild(el);
+  });
+  document.getElementById('mdl').hidden = false;
+}
+function mdlClose(){ document.getElementById('mdl').hidden = true; }
+document.getElementById('mdl').addEventListener('click', function(e){ if (e.target.id === 'mdl') mdlClose(); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mdlClose(); });
+function copyText(t, btn, label){
+  var done = function(){ if (btn){ btn.textContent = '복사됨 ✓'; setTimeout(function(){ btn.textContent = label; }, 1800); } };
+  if (navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(t).then(done, function(){ legacyCopy(t); done(); }); }
+  else { legacyCopy(t); done(); }
+}
+function legacyCopy(t){ var x = document.createElement('textarea'); x.value = t; x.style.position='fixed'; x.style.opacity='0'; document.body.appendChild(x); x.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(x); }
+function checkForm(){
+  var f = document.getElementById('quote'), miss = [];
+  if (!f.company.value.trim()) miss.push('회사명');
+  if (!f.name.value.trim()) miss.push('담당자');
+  if (!f.phone.value.trim() && !f.email.value.trim()) miss.push('연락처 또는 이메일');
+  if (miss.length){ mdlOpen('입력 확인', miss.join(', ') + '을(를) 입력해 주세요.', '', [{ label: '확인', primary: true, onclick: mdlClose }]); return false; }
+  return true;
+}
+function pcGuide(kind, text){
+  var head = kind === 'sms'
+    ? '문자는 휴대폰에서 보낼 수 있습니다. 아래 내용을 복사해 <b>' + TELD + '</b>로 문자 보내 주세요.'
+    : 'PC에 메일 프로그램이 없으면 메일 앱이 열리지 않습니다. 아래 내용을 복사해 쓰시는 메일(Gmail, 네이버 메일 등)에서 <b>' + MAILTXT + '</b>로 보내 주세요.';
+  var acts = [
+    { label: '내용 복사', primary: true, onclick: function(){ copyText(text, this, '내용 복사'); } }
+  ];
+  if (kind !== 'sms') acts.push({ label: '메일 주소 복사', onclick: function(){ copyText(MAILTXT, this, '메일 주소 복사'); } });
+  if (kind !== 'sms') acts.push({ label: '메일 앱으로 열기', onclick: function(){ mdlClose(); sendMailApp(); } });
+  acts.push({ label: '닫기', onclick: mdlClose });
+  mdlOpen(kind === 'sms' ? '문자로 문의하기' : '메일로 문의하기', head + '<br>급하시면 <b>' + TELD + '</b>로 전화 주세요.', text, acts);
+}
+function sendSms(){
+  if (!checkForm()) return;
+  var q = quoteText(), t = q.title + '\n' + q.body;
+  if (!isMobile) return pcGuide('sms', t);
+  smsOpen(t);
+}
+function sendMail(){
+  if (!checkForm()) return;
+  var q = quoteText();
+  if (!isMobile) return pcGuide('mail', '제목: ' + q.title + '\n\n' + q.body + '\n\n※ 도면 파일을 첨부해 주세요.');
+  sendMailApp();
+}
+if (mailLink) mailLink.addEventListener('click', function(e){
+  if (isMobile) return;
+  e.preventDefault();
+  mdlOpen('메일 주소', '<b>' + MAILTXT + '</b><br>도면과 문의 내용을 이 주소로 보내 주세요.', '', [
+    { label: '메일 주소 복사', primary: true, onclick: function(){ copyText(MAILTXT, this, '메일 주소 복사'); } },
+    { label: '메일 앱으로 열기', onclick: function(){ mdlClose(); location.href = mailLink.href; } },
+    { label: '닫기', onclick: mdlClose }
+  ]);
+});
 </script>
 </body>
 </html>
